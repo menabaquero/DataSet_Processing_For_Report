@@ -1,0 +1,33 @@
+# If getting this error: is no item named 'xl/sharedStrings.xml'
+# Open and save again all excel files, and then continue with execition
+
+
+# Import the libraries
+import pandas as pd
+import os
+
+# Identifying the Files to Merge
+path= "D:\PANDA\Lic20231113\License"
+files = os.listdir(path)
+files_xlsx = [f for f in files if f[-4:] == 'xlsx']
+
+
+# Reading your Excel Files
+df_list = []
+for f in files_xlsx:
+    data = pd.read_excel(os.path.join(path, f))
+    df_list.append(data)
+df = pd.concat(df_list)
+df.columns = ['Node Name' ,'Operator Index', 'Operator Name', 'Item Type', 'SBOM Description', 'SBOM Model', 'Allocated', 'Configured', 'Actual Used', 'Unit', 'Expiration Date', 'Grace Period Entry', 'Details', 'ESN', 'License Status']
+
+
+# Create a new merged Excel file
+#output_path = "D:\PANDA\Lic20231113\License\output_file.xlsx"
+#df.to_excel(output_path, index=False)
+
+
+options = ['LT1S00BW5R00', 'LT1S005MHZ00', 'LT1S010MHZ00', 'LT1S015MHZ00', 'LT1S020MHZ00', 'LT1S0MM5CB00', 'LT1S005MHZ01', 'LT1S010MHZ01', 'LT1S015MHZ01', 'LT1S020MHZ01']
+# selecting rows based on condition 
+rslt_df = df[df['SBOM Model'].isin(options)] 
+output_path_rslt = "D:\PANDA\Lic20231113\License\output_file_filtered.xlsx"
+rslt_df.to_excel(output_path_rslt, index=False)
